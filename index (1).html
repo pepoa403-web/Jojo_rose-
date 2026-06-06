@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌹 مونتاج الورد</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: linear-gradient(135deg, #ffeef8 0%, #ffe0f0 100%);
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(90deg, #e91e63, #f06292);
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* كود الخصم */
+        .discount-box {
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(233, 30, 99, 0.3);
+        }
+
+        .discount-box input {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1em;
+            text-align: center;
+            width: 200px;
+            margin: 0 10px;
+        }
+
+        .discount-box button {
+            background: #ffd700;
+            color: #333;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 1.1em;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .discount-msg {
+            margin-top: 10px;
+            font-size: 1.1em;
+        }
+
+        /* المنتجات */
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-info h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            color: #e91e63;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 0.8em;
+            margin-left: 10px;
+        }
+
+        .new-price {
+            color: #4caf50;
+        }
+
+        .buy-btn {
+            background: linear-gradient(90deg, #e91e63, #f06292);
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            border-radius: 50px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        /* نموذج الطلب */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .modal-content input, .modal-content textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            font-size: 1em;
+        }
+
+        .submit-btn {
+            background: #e91e63;
+            color: white;
+            border: none;
+            padding: 12px 40px;
+            border-radius: 50px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .close-btn {
+            background: #ccc;
+            color: #333;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 10px;
+            margin-right: 10px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+            background: white;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.8em; }
+            .products { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🌹 مونتاج الورد</h1>
+        <p>أجمل الورود في مصر - توصيل 30 جنيه</p>
+    </header>
+
+    <div class="container">
+
+        <!-- كود الخصم -->
+        <div class="discount-box">
+            <h2>🎁 كود خصم: Jojo</h2>
+            <p>خصم 10% لمدة أسبوع</p>
+            <input type="text" id="discountCode" placeholder="اكتب الكود">
+            <button onclick="applyDiscount()">تطبيق</button>
+            <div class="discount-msg" id="discountMsg"></div>
+        </div>
+
+        <!-- المنتجات -->
+        <div class="products" id="products"></div>
+
+    </div>
+
+    <!-- نموذج الطلب -->
+    <div class="modal" id="orderModal">
+        <div class="modal-content">
+            <h2>🛒 إتمام الطلب</h2>
+            <p id="selectedProduct"></p>
+            
+            <input type="text" id="customerName" placeholder="الاسم" required>
+            <input type="tel" id="customerPhone" placeholder="الموبايل" required>
+            <input type="text" id="customerArea" placeholder="المنطقة" required>
+            <input type="text" id="customerAddress" placeholder="العنوان" required>
+            <textarea id="customerNotes" placeholder="ملاحظات" rows="3"></textarea>
+            
+            <button class="submit-btn" onclick="prepareOrder()">اطلب عبر واتساب</button>
+            <button class="close-btn" onclick="closeModal()">إلغاء</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>📞 +201271699449 | 📍 القاهرة</p>
+        <p>🇪🇬 مونتاج الورد © 2026</p>
+    </footer>
+
+    <script>
+        const DISCOUNT_CODE = "Jojo";
+        const DISCOUNT_PERCENT = 10;
+        const WHATSAPP_NUMBER = "201271699449"; // غيّر رقمك هنا
+
+        let discountApplied = false;
+
+        const products = [
+            { id: 1, name: "🌹 ورد أحمر كلاسيك", price: 300, image: "1.jpg" },
+            { id: 2, name: "🌸 ورد وردي رومانسي", price: 300, image: "2.jpg" },
+            { id: 3, name: "🤍 ورد أبيض ناصع", price: 350, image: "3.jpg" },
+            { id: 4, name: "💐 ورد مشكل", price: 400, image: "4.jpg" },
+            { id: 5, name: "🌺 ورد ازرق فاخر", price: 450, image: "5.jpg" },
+            { id: 6, name: "🌷 ورد صغير لطيف", price: 150, image: "6.jpg" },
+            { id: 7, name: "✨ ورد ازرق فاخر", price: 500, image: "7.jpg" },
+            { id: 8, name: "💜 ورد بنفسجي أنيق", price: 320, image: "8.jpg" },
+            { id: 9, name: "🔥 ورد أحمر كبير", price: 600, image: "9.jpg" }
+        ];
+
+        function displayProducts() {
+            const container = document.getElementById('products');
+            container.innerHTML = '';
+            
+            products.forEach(product => {
+                const price = discountApplied ? 
+                    Math.round(product.price * 0.9) : product.price;
+                
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" 
+                         onerror="this.src='https://via.placeholder.com/300x250/e91e63/ffffff?text=ورد'">
+                    <div class="product-info">
+                        <h3>${product.name}</h3>
+                        <div class="price">
+                            ${discountApplied ? 
+                                `<span class="old-price">${product.price}ج</span>
+                                 <span class="new-price">${price}ج</span>` 
+                                : `${price} جنيه`}
+                        </div>
+                        <button class="buy-btn" onclick="openOrder(${product.id})">🛒 اطلب</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function applyDiscount() {
+            const code = document.getElementById('discountCode').value.trim();
+            const msg = document.getElementById('discountMsg');
+            
+            if (code === DISCOUNT_CODE) {
+                discountApplied = true;
+                msg.innerHTML = '🎉 خصم 10% مفعل!';
+                msg.style.color = '#ffd700';
+                displayProducts();
+            } else {
+                msg.innerHTML = '❌ كود غلط';
+                msg.style.color = '#ffcccc';
+            }
+        }
+
+        let selectedProduct = null;
+
+        function openOrder(productId) {
+            selectedProduct = products.find(p => p.id === productId);
+            const price = discountApplied ? 
+                Math.round(selectedProduct.price * 0.9) : selectedProduct.price;
+            
+            document.getElementById('selectedProduct').innerHTML = 
+                `<strong>${selectedProduct.name}</strong><br>${price} جنيه`;
+            
+            document.getElementById('orderModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('orderModal').style.display = 'none';
+        }
+
+        function prepareOrder() {
+            const name = document.getElementById('customerName').value.trim();
+            const phone = document.getElementById('customerPhone').value.trim();
+            const area = document.getElementById('customerArea').value.trim();
+            const address = document.getElementById('customerAddress').value.trim();
+            
+            if (!name || !phone || !area || !address) {
+                alert('❌ أكمل البيانات');
+                return;
+            }
+            
+            const price = discountApplied ? 
+                Math.round(selectedProduct.price * 0.9) : selectedProduct.price;
+            
+            const message = `🌹 طلب جديد!%0A%0A` +
+                          `المنتج: ${selectedProduct.name}%0A` +
+                          `السعر: ${price} جنيه%0A%0A` +
+                          `الاسم: ${name}%0A` +
+                          `الموبايل: ${phone}%0A` +
+                          `المنطقة: ${area}%0A` +
+                          `العنوان: ${address}`;
+            
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, '_blank');
+            closeModal();
+        }
+
+        document.getElementById('orderModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        displayProducts();
+    </script>
+
+</body>
+</html>
